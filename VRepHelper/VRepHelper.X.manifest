@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+
+  <assemblyIdentity name="VRepHelper" version="1.0.0.0"></assemblyIdentity>
+
+  <clrClass clsid="{730dc371-7758-43e6-82da-85326b8a1911}" progid="VRepHelper.StandardAddInServer" threadingModel="Both" name="VRepHelper.VRepHelper.StandardAddInServer" runtimeVersion=""></clrClass>
+
+  <file name="VRepHelper.dll" hashalg="SHA1"></file>
+
+</assembly>
