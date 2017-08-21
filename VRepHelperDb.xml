@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VRepHelper>
+  <ViewReps>
+  <ViewRep Name="Station - Plan" ShortName="StaPln" />"
+  <ViewRep Name="Station - Elevation" ShortName="StaElv" />"
+  <ViewRep Name="Station - BOM" ShortName="StaBom" />"
+  <ViewRep Name="Foundation - Plan" ShortName="FndPln" />"
+  <ViewRep Name="Structure - Plan" ShortName="StrPln" />"
+  <ViewRep Name="Conduit - Plan" ShortName="CndPln" />"
+  <ViewRep Name="Conduit - Detail" ShortName="CndDtl" />"
+  <ViewRep Name="Conduit - BOM" ShortName="CndBom" />"
+  <ViewRep Name="Grounding - Plan" ShortName="GndPln" />"
+  <ViewRep Name="Grounding - Detail" ShortName="GndDtl" />"
+  <ViewRep Name="Grounding - BOM" ShortName="GndBom" />"
+  <ViewRep Name="Fence - Plan" ShortName="FncPln" />"
+  <ViewRep Name="Trench - Plan" ShortName="TrnPln" />"
+  </ViewReps>
+  <ComponentDefs>
+    <ComponentDef Name="BUS SUPPORT" StaPln="True" StaElv="True" StaBom="True" FndPln="False" StrPln="False" CndPln="False" CndDtl="False" CndBom="False" GndPln="False" GndDtl="False" GndBom="False" FncPln="False" TrnPln="False"/>
+    <ComponentDef Name="STRUCTURE" StaPln="True" StaElv="True" StaBom="False" FndPln="False" StrPln="True" CndPln="False" CndDtl="True" CndBom="False" GndPln="False" GndDtl="True" GndBom="False" FncPln="False" TrnPln="True"/>
+
+  </ComponentDefs>
+
+</VRepHelper>

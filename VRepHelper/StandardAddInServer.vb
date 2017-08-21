@@ -10,7 +10,7 @@ Namespace VRepHelper
         Implements Inventor.ApplicationAddInServer
 
         ' Inventor application object.
-        Private m_inventorApplication As Inventor.Application
+        Public Shared oInvApp As Inventor.Application
 
 #Region "ApplicationAddInServer Members"
 
@@ -21,7 +21,7 @@ Namespace VRepHelper
             ' The FirstTime flag indicates if the AddIn is loaded for the first time.
 
             ' Initialize AddIn members.
-            m_inventorApplication = addInSiteObject.Application
+            oInvApp = addInSiteObject.Application
 
             ' TODO:  Add ApplicationAddInServer.Activate implementation.
             ' e.g. event initialization, command creation etc.
@@ -37,8 +37,8 @@ Namespace VRepHelper
             ' TODO:  Add ApplicationAddInServer.Deactivate implementation
 
             ' Release objects.
-            Marshal.ReleaseComObject(m_inventorApplication)
-            m_inventorApplication = Nothing
+            Marshal.ReleaseComObject(oInvApp)
+            oInvApp = Nothing
 
             System.GC.WaitForPendingFinalizers()
             System.GC.Collect()

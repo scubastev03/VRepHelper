@@ -78,6 +78,10 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -89,6 +93,12 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.vb" />
     <Compile Include="StandardAddInServer.vb" />
+    <Compile Include="VRepHelperRun.Designer.vb">
+      <DependentUpon>VRepHelperRun.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VRepHelperRun.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="VRepHelper.X.manifest" />
@@ -118,6 +128,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="VRepHelperRun.resx">
+      <DependentUpon>VRepHelperRun.vb</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <Target Name="AfterClean">

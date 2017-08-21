@@ -5,6 +5,11 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VRepHelper", "VRepHelper\VRepHelper.vbproj", "{E3133B87-5830-4ECA-A611-BE8CABD0D3EF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{460CB536-C0F7-404A-9704-8586FEB6F345}"
+	ProjectSection(SolutionItems) = preProject
+		VRepHelperDb.xml = VRepHelperDb.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
