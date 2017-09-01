@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<VRepHelper>
+  <xs:schema id="VRepHelper" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="VRepHelper" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="ViewRep">
+            <xs:complexType>
+              <xs:attribute name="Name" type="xs:string" />
+              <xs:attribute name="ShortName" type="xs:string" />
+			  <xs:attribute name="DVR" type="xs:boolean" />
+			  <xs:attribute name="LOD" type="xs:boolean" />
+              <xs:attribute name="Enabled" type="xs:boolean" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ComponentDef">
+            <xs:complexType>
+              <xs:attribute name="Name" type="xs:string" />
+              <xs:attribute name="StaPln" type="xs:boolean" />
+              <xs:attribute name="StaElv" type="xs:boolean" />
+              <xs:attribute name="StaBom" type="xs:boolean" />
+              <xs:attribute name="FndPln" type="xs:boolean" />
+              <xs:attribute name="StrPln" type="xs:boolean" />
+              <xs:attribute name="CndPln" type="xs:boolean" />
+              <xs:attribute name="CndDtl" type="xs:boolean" />
+              <xs:attribute name="CndBom" type="xs:boolean" />
+              <xs:attribute name="GndPln" type="xs:boolean" />
+              <xs:attribute name="GndDtl" type="xs:boolean" />
+              <xs:attribute name="GndBom" type="xs:boolean" />
+              <xs:attribute name="FncPln" type="xs:boolean" />
+              <xs:attribute name="TrnPln" type="xs:boolean" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <ViewRep Name="Station - Plan" ShortName="StaPln" DVR="false" LOD="true" Enabled="true" />
+  <ViewRep Name="Station - Elevation" ShortName="StaElv" DVR="false" LOD="true" Enabled="true" />
+  <ViewRep Name="Station - BOM" ShortName="StaBom" DVR="true" LOD="false" Enabled="true" />
+  <ViewRep Name="Foundation - Plan" ShortName="FndPln" DVR="false" LOD="true" Enabled="true" />
+  <ViewRep Name="Structure - Plan" ShortName="StrPln" DVR="false" LOD="true" Enabled="true" />
+  <ViewRep Name="Conduit - Plan" ShortName="CndPln" DVR="false" LOD="true" Enabled="true" />
+  <ViewRep Name="Conduit - Detail" ShortName="CndDtl" DVR="false" LOD="true" Enabled="true" />
+  <ViewRep Name="Conduit - BOM" ShortName="CndBom" DVR="true" LOD="false" Enabled="true" />
+  <ViewRep Name="Grounding - Plan" ShortName="GndPln" DVR="false" LOD="true" Enabled="true" />
+  <ViewRep Name="Grounding - Detail" ShortName="GndDtl" DVR="false" LOD="true" Enabled="true" />
+  <ViewRep Name="Grounding - BOM" ShortName="GndBom" DVR="true" LOD="false" Enabled="true" />
+  <ViewRep Name="Fence - Plan" ShortName="FncPln" DVR="false" LOD="true" Enabled="true" />
+  <ViewRep Name="Trench - Plan" ShortName="TrnPln" DVR="false" LOD="true" Enabled="true" />
+  <ComponentDef Name="ANCHOR" StaPln="true" StaElv="true" StaBom="false" FndPln="true" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="ANCHOR BOLT" StaPln="true" StaElv="true" StaBom="false" FndPln="true" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="ANCHOR NUT" StaPln="false" StaElv="true" StaBom="false" FndPln="true" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="ANCHOR WASHER" StaPln="false" StaElv="true" StaBom="false" FndPln="true" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="BARE COPPER" StaPln="false" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="true" GndDtl="true" GndBom="true" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="BUILDING" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="true" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="BUS" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="BUS COUPLER" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="BUS END CAP" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="BUS END PLUG" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="BUS PIPE" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="BUS SUPPORT" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="BUS TEE" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="BUS TEE TAP" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="BUS TERMINAL" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="BUS VEE TAP" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CABLE" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CABLE BARE" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CABLE SPACER" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CABLE SUPPORT" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CABLE TEE" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CABLE TERMINAL" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CAPACITOR BANK" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CAPACITOR SWITCHER" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CIRCUIT BREAKER" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CIRCUIT SWITCHER" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONCRETE" StaPln="true" StaElv="true" StaBom="false" FndPln="true" StrPln="false" CndPln="true" CndDtl="true" CndBom="false" GndPln="true" GndDtl="true" GndBom="false" FncPln="false" TrnPln="true" />
+  <ComponentDef Name="CONDUIT" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT ADAPTER" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT BALL VALVE" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT BODY" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT BUSHING" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT COUPLER" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT CLAMP" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT ELBOW" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT END BELL" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT PIPE" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT REDUCER" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT SLEEVE" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT TEE" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONDUIT TERMINAL" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CONTROL BUILDING" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="true" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CURRENT TRANSFORMER" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="DISCONNECT SWITCH" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="DOWNLEAD CLAMP" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="EQUIPMENT" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="FENCE" StaPln="true" StaElv="true" StaBom="false" FndPln="true" StrPln="true" CndPln="true" CndDtl="false" CndBom="false" GndPln="true" GndDtl="true" GndBom="false" FncPln="true" TrnPln="true" />
+  <ComponentDef Name="FIBER CONNECTOR" StaPln="true" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="FIBER OPTIC" StaPln="true" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="FIBER SPLICE ENCLOSURE" StaPln="true" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="FIBER EXTERNAL COIL" StaPln="true" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="FILTER" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="FOUNDATION" StaPln="true" StaElv="true" StaBom="false" FndPln="true" StrPln="false" CndPln="true" CndDtl="true" CndBom="false" GndPln="true" GndDtl="true" GndBom="false" FncPln="false" TrnPln="true" />
+  <ComponentDef Name="FORMING DISK" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="FUSE HIGH VOLTAGE" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="FUSE SWITCH" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="GRADING" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="CABLE CLIP" StaPln="false" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="true" GndDtl="true" GndBom="true" FncPln="false" TrnPln="true" />
+  <ComponentDef Name="GROUNDING CLAMP" StaPln="false" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="false" CndBom="false" GndPln="true" GndDtl="true" GndBom="true" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="GROUNDING CONNECTOR" StaPln="false" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="true" GndDtl="true" GndBom="true" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="GROUNDING MOLD" StaPln="false" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="false" CndBom="false" GndPln="true" GndDtl="true" GndBom="true" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="GROUNDING TAP" StaPln="false" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="false" CndBom="false" GndPln="true" GndDtl="true" GndBom="true" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="GROUNDING TERMINAL" StaPln="false" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="true" GndDtl="true" GndBom="true" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="GROUNDING ROD" StaPln="false" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="false" CndBom="false" GndPln="true" GndDtl="true" GndBom="true" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="HARDWARE FITTING" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="INSULATOR" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="LINK SEAL" StaPln="false" StaElv="true" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="true" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="POST INSULATOR" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="SKETCH" StaPln="false" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="SUSPENSION INSULATOR" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="JUNCTION BOX" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="PULL BOX" StaPln="true" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="false" GndPln="true" GndDtl="true" GndBom="false" FncPln="false" TrnPln="true" />
+  <ComponentDef Name="POWER TRANSFORMER" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="REACTOR" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="REBAR" StaPln="false" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="SAFETY SWITCH" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="STATION LIGHT" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="STATION SERVICE TRANSFORMER" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="STRUCTURE" StaPln="true" StaElv="true" StaBom="false" FndPln="false" StrPln="true" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="SURGE ARRESTER" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="TRENCH" StaPln="true" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="false" GndPln="true" GndDtl="true" GndBom="false" FncPln="false" TrnPln="true" />
+  <ComponentDef Name="TRENCH BASE" StaPln="true" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="false" GndPln="true" GndDtl="true" GndBom="false" FncPln="false" TrnPln="true" />
+  <ComponentDef Name="TRENCH END" StaPln="true" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="true" CndDtl="true" CndBom="false" GndPln="true" GndDtl="true" GndBom="false" FncPln="false" TrnPln="true" />
+  <ComponentDef Name="TRENCH LID" StaPln="true" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="true" />
+  <ComponentDef Name="VOID FORM" StaPln="false" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="VOLTAGE TRANSFORMER" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="WATERSTOP" StaPln="false" StaElv="false" StaBom="false" FndPln="false" StrPln="false" CndPln="false" CndDtl="false" CndBom="false" GndPln="false" GndDtl="false" GndBom="false" FncPln="false" TrnPln="false" />
+  <ComponentDef Name="WAVE TRAP" StaPln="true" StaElv="true" StaBom="true" FndPln="false" StrPln="false" CndPln="false" CndDtl="true" CndBom="false" GndPln="false" GndDtl="true" GndBom="false" FncPln="false" TrnPln="false" />
+</VRepHelper>
