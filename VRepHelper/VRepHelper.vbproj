@@ -99,7 +99,9 @@
     <None Include="VRepHelper.X.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Autodesk.VRepHelper.Inventor.addin" />
+    <None Include="Autodesk.VRepHelper.Inventor.addin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Readme.txt" />
@@ -127,6 +129,7 @@
   <ItemGroup>
     <Content Include="VRepHelperDb.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
