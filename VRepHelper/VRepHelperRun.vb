@@ -69,7 +69,7 @@ Public Class VRepHelperRun
                             oObjCol1.Clear() 'Clear Object Collections
                             oObjCol2.Clear() 'Clear Object Collections
                             For Each oCmpOcc As ComponentOccurrence In oAsmCmpDef.Occurrences 'Get Leaf Occurences for Current Assembly Document Definition
-                                If oCmpOcc.DefinitionDocumentType() = DocumentTypeEnum.kAssemblyDocumentObject Then
+                                If Not TypeOf oCmpOcc.Definition Is VirtualComponentDefinition AndAlso oCmpOcc.DefinitionDocumentType() = DocumentTypeEnum.kAssemblyDocumentObject Then
                                     If oCmpOcc.BOMStructure() = BOMStructureEnum.kPhantomBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
                                         Try
                                             If oCmpOcc.ActiveDesignViewRepresentation() = oViewRep.Name Then
@@ -159,7 +159,7 @@ Public Class VRepHelperRun
                                 Continue For
                             End Try
                             For Each oCmpOcc As ComponentOccurrence In oAsmCmpDef.Occurrences 'Get Leaf Occurences for Current Assembly Document Definition
-                                If oCmpOcc.DefinitionDocumentType() = DocumentTypeEnum.kAssemblyDocumentObject Then
+                                If Not TypeOf oCmpOcc.Definition Is VirtualComponentDefinition AndAlso oCmpOcc.DefinitionDocumentType() = DocumentTypeEnum.kAssemblyDocumentObject Then
                                     If oCmpOcc.BOMStructure() = BOMStructureEnum.kPhantomBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
                                         Try
                                             If oCmpOcc.ActiveLevelOfDetailRepresentation() = oLODRep.Name Then
