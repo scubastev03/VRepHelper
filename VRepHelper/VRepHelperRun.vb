@@ -66,68 +66,71 @@ Public Class VRepHelperRun
                                 Continue For
                             End Try
                             oInvApp.StatusBarText() = "Setting " & oViewRep.Name & " to Active Design View Representation"
-                            oObjCol1.Clear() 'Clear Object Collections
-                            oObjCol2.Clear() 'Clear Object Collections
+                            oLODReps.Item("Master").Activate()
                             For Each oCmpOcc As ComponentOccurrence In oAsmCmpDef.Occurrences 'Get Leaf Occurences for Current Assembly Document Definition
-                                If Not TypeOf oCmpOcc.Definition Is VirtualComponentDefinition AndAlso oCmpOcc.DefinitionDocumentType() = DocumentTypeEnum.kAssemblyDocumentObject Then
-                                    If oCmpOcc.BOMStructure() = BOMStructureEnum.kPhantomBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
-                                        Try
-                                            If oCmpOcc.ActiveDesignViewRepresentation() = oViewRep.Name Then
-                                                Continue For
-                                            ElseIf oCmpOcc.ActiveDesignViewRepresentation() <> oViewRep.Name Then
-                                                Try
-                                                    oCmpOcc.SetDesignViewRepresentation(oViewRep.Name)
-                                                Catch
-                                                    Continue For
-                                                End Try
-                                            ElseIf String.IsNullOrEmpty(oCmpOcc.ActiveDesignViewRepresentation()) Then
-                                                Try
-                                                    oCmpOcc.SetDesignViewRepresentation(oViewRep.Name)
-                                                Catch
-                                                    Continue For
-                                                End Try
-                                            End If
-                                        Catch
+                                Select Case oCmpOcc.DefinitionDocumentType()
+                                    Case DocumentTypeEnum.kAssemblyDocumentObject
+                                        If TypeOf oCmpOcc.Definition Is VirtualComponentDefinition Then
                                             Continue For
-                                        End Try
-                                    Else
-                                        Continue For
-                                    End If
-                                ElseIf oCmpOcc.DefinitionDocumentType() = DocumentTypeEnum.kPartDocumentObject Then
-                                    If oCmpOcc.BOMStructure() = BOMStructureEnum.kNormalBOMStructure Or BOMStructureEnum.kPurchasedBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
-                                        Try
-                                            oPropSets = oCmpOcc.Definition.Document.PropertySets
-                                            If Not oPropSets.PropertySetExists("Inventor Summary Information") Then
-                                                Continue For
-                                            Else
-                                                Try
-                                                    If String.IsNullOrEmpty(oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oViewRepId)) Then
-                                                        Continue For
-                                                    Else
-                                                        If oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oViewRepId) Then
-                                                            'oCmpOcc.Visible = True
-                                                            oObjCol1.Add(oCmpOcc)
-                                                        ElseIf Not oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oViewRepId) Then
-                                                            'oCmpOcc.Visible = False
-                                                            oObjCol2.Add(oCmpOcc)
-                                                        End If
-                                                    End If
-                                                Catch
+                                        End If
+                                        If oCmpOcc.BOMStructure() = BOMStructureEnum.kPhantomBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
+                                            Try
+                                                If oCmpOcc.ActiveDesignViewRepresentation() = oViewRep.Name Then
                                                     Continue For
-                                                End Try
-                                            End If
-                                        Catch
-                                        End Try
-                                    End If
-                                Else
-                                    Continue For
-                                End If
+                                                ElseIf oCmpOcc.ActiveDesignViewRepresentation() <> oViewRep.Name Then
+                                                    Try
+                                                        oCmpOcc.SetDesignViewRepresentation(oViewRep.Name)
+                                                    Catch
+                                                        Continue For
+                                                    End Try
+                                                ElseIf String.IsNullOrEmpty(oCmpOcc.ActiveDesignViewRepresentation()) Then
+                                                    Try
+                                                        oCmpOcc.SetDesignViewRepresentation(oViewRep.Name)
+                                                    Catch
+                                                        Continue For
+                                                    End Try
+                                                End If
+                                            Catch
+                                                Continue For
+                                            End Try
+                                        Else
+                                            Continue For
+                                        End If
+                                    Case DocumentTypeEnum.kPartDocumentObject
+                                        If oCmpOcc.BOMStructure() = BOMStructureEnum.kNormalBOMStructure Or BOMStructureEnum.kPurchasedBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
+                                            Try
+                                                oPropSets = oCmpOcc.Definition.Document.PropertySets
+                                                If Not oPropSets.PropertySetExists("Inventor Summary Information") Then
+                                                    Continue For
+                                                Else
+                                                    Try
+                                                        If String.IsNullOrEmpty(oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oViewRepId)) Then
+                                                            Continue For
+                                                        Else
+                                                            If oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oViewRepId) Then
+                                                                oObjCol1.Add(oCmpOcc)
+                                                            ElseIf Not oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oViewRepId) Then
+                                                                oObjCol2.Add(oCmpOcc)
+                                                            End If
+                                                        End If
+                                                    Catch
+                                                        Continue For
+                                                    End Try
+                                                End If
+                                            Catch
+                                            End Try
+                                        End If
+                                    Case Else
+                                        Continue For
+                                End Select
                             Next oCmpOcc
                             If oObjCol1.Count() <> 0 Then
                                 Try
                                     oViewRep.SetVisibilityOfOccurrences(oObjCol1, True)
                                 Catch ex As Exception
                                     MsgBox(ex.ToString,, oCaption)
+                                Finally
+                                    oObjCol1.Clear()
                                 End Try
                             End If
                             If oObjCol2.Count() <> 0 Then
@@ -135,6 +138,8 @@ Public Class VRepHelperRun
                                     oViewRep.SetVisibilityOfOccurrences(oObjCol2, False)
                                 Catch ex As Exception
                                     MsgBox(ex.ToString,, oCaption)
+                                Finally
+                                    oObjCol2.Clear()
                                 End Try
                             End If
                             oViewRepActive.Activate()
@@ -159,51 +164,55 @@ Public Class VRepHelperRun
                                 Continue For
                             End Try
                             For Each oCmpOcc As ComponentOccurrence In oAsmCmpDef.Occurrences 'Get Leaf Occurences for Current Assembly Document Definition
-                                If Not TypeOf oCmpOcc.Definition Is VirtualComponentDefinition AndAlso oCmpOcc.DefinitionDocumentType() = DocumentTypeEnum.kAssemblyDocumentObject Then
-                                    If oCmpOcc.BOMStructure() = BOMStructureEnum.kPhantomBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
-                                        Try
-                                            If oCmpOcc.ActiveLevelOfDetailRepresentation() = oLODRep.Name Then
-                                                Continue For
-                                            Else
-                                                Try
-                                                    oCmpOcc.SetLevelOfDetailRepresentation(oLODRep.Name)
-                                                Catch
-                                                    Continue For
-                                                End Try
-                                            End If
-                                        Catch
+                                Select Case oCmpOcc.DefinitionDocumentType()
+                                    Case DocumentTypeEnum.kAssemblyDocumentObject
+                                        If TypeOf oCmpOcc.Definition Is VirtualComponentDefinition Then
                                             Continue For
-                                        End Try
-                                    Else
-                                        Continue For
-                                    End If
-                                ElseIf oCmpOcc.DefinitionDocumentType() = DocumentTypeEnum.kPartDocumentObject Then
-                                    If oCmpOcc.BOMStructure() = BOMStructureEnum.kNormalBOMStructure Or BOMStructureEnum.kPurchasedBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Or BOMStructureEnum.kPhantomBOMStructure Then
-                                        Try
-                                            oPropSets = oCmpOcc.Definition.Document.PropertySets
-                                            If Not oPropSets.PropertySetExists("Inventor Summary Information") Then
-                                                Continue For
-                                            Else
-                                                Try
-                                                    If String.IsNullOrEmpty(oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oLODRepId)) Then
-                                                        Continue For
-                                                    Else
-                                                        If oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oLODRepId) Then
-                                                            oCmpOcc.Unsuppress()
-                                                        ElseIf Not oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oLODRepId) Then
-                                                            oCmpOcc.Suppress()
-                                                        End If
-                                                    End If
-                                                Catch
+                                        End If
+                                        If oCmpOcc.BOMStructure() = BOMStructureEnum.kPhantomBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
+                                            Try
+                                                If oCmpOcc.ActiveLevelOfDetailRepresentation() = oLODRep.Name Then
                                                     Continue For
-                                                End Try
-                                            End If
-                                        Catch
-                                        End Try
-                                    End If
-                                Else
-                                    Continue For
-                                End If
+                                                Else
+                                                    Try
+                                                        oCmpOcc.SetLevelOfDetailRepresentation(oLODRep.Name)
+                                                    Catch
+                                                        Continue For
+                                                    End Try
+                                                End If
+                                            Catch
+                                                Continue For
+                                            End Try
+                                        Else
+                                            Continue For
+                                        End If
+                                    Case DocumentTypeEnum.kPartDocumentObject
+                                        If oCmpOcc.BOMStructure() = BOMStructureEnum.kNormalBOMStructure Or BOMStructureEnum.kPurchasedBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Or BOMStructureEnum.kPhantomBOMStructure Then
+                                            Try
+                                                oPropSets = oCmpOcc.Definition.Document.PropertySets
+                                                If Not oPropSets.PropertySetExists("Inventor Summary Information") Then
+                                                    Continue For
+                                                Else
+                                                    Try
+                                                        If String.IsNullOrEmpty(oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oLODRepId)) Then
+                                                            Continue For
+                                                        Else
+                                                            If oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oLODRepId) Then
+                                                                oCmpOcc.Unsuppress()
+                                                            ElseIf Not oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oLODRepId) Then
+                                                                oCmpOcc.Suppress()
+                                                            End If
+                                                        End If
+                                                    Catch
+                                                        Continue For
+                                                    End Try
+                                                End If
+                                            Catch
+                                            End Try
+                                        End If
+                                    Case Else
+                                        Continue For
+                                End Select
                             Next oCmpOcc
                             oDoc.Save()
                         End If
@@ -212,7 +221,7 @@ Public Class VRepHelperRun
                 oLODRepActive.Activate()
                 oStopWatch.Stop()
                 oDoc.Save()
-                MsgBox("Setting Design View & LOD Representation Process Completed." & vbCr & "Process Completed in " & oStopWatch.Elapsed.TotalSeconds & " Seconds.",, oCaption)
+                MsgBox("Setting Design View & LOD Representation Process Completed." & vbCr & "Process Completed in " & oStopWatch.Elapsed.TotalMinutes.ToString("F2") & " Minutes.",, oCaption)
             Catch ex As Exception
                 MsgBox(ex.ToString,, oCaption)
             End Try
