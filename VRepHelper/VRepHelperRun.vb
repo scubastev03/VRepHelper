@@ -22,7 +22,6 @@ Public Class VRepHelperRun
         Dim oObjCol1 As ObjectCollection = oInvApp.TransientObjects.CreateObjectCollection
         Dim oObjCol2 As ObjectCollection = oInvApp.TransientObjects.CreateObjectCollection
         Dim oDeferUpdate As Boolean = oInvApp.AssemblyOptions.DeferUpdate
-        Dim oFileCount As Integer = 0
         Try
             Select Case MessageBox.Show("Do you want to proceed? This process may take several minutes.", oCaption, MessageBoxButtons.OKCancel)
                 Case DialogResult.Cancel
@@ -42,7 +41,6 @@ Public Class VRepHelperRun
             End Try
             Try
                 If oDoc.DocumentType = DocumentTypeEnum.kAssemblyDocumentObject Then 'Check If File Is An Assembly
-                    oFileCount = oDoc.AllReferencedDocuments.Count() 'Get count of referenced files
                     oVRepTable = oDataSet.Tables("ViewRep") 'Get View Rep table from referenced xml db file
                     oVRepTable.PrimaryKey = New DataColumn() {oVRepTable.Columns("Name")}
                     oCDefTable = oDataSet.Tables("ComponentDef")
@@ -50,7 +48,7 @@ Public Class VRepHelperRun
                     For Each oVRepRow As DataRow In oVRepTable.Rows 'Create View Representations If Not Exist
                         If oVRepRow.Item("DVR") Then
                             Try
-                                oViewReps.Item(oVRepRow.Item("Name")).Activate()
+                                oViewRep = oViewReps.Item(oVRepRow.Item("Name"))
                             Catch
                                 oViewRep = oViewReps.Add(oVRepRow.Item("Name"))
                             End Try
@@ -65,8 +63,12 @@ Public Class VRepHelperRun
                             Catch
                                 Continue For
                             End Try
+                            oInvApp.ScreenUpdating = True
                             oInvApp.StatusBarText() = "Setting " & oViewRep.Name & " to Active Design View Representation"
-                            oLODReps.Item("Master").Activate()
+                            oInvApp.ScreenUpdating = False
+                            If Not oAsmCmpDef.RepresentationsManager.ActiveLevelOfDetailRepresentation().Name = "Master" Then
+                                oLODReps.Item("Master").Activate()
+                            End If
                             For Each oCmpOcc As ComponentOccurrence In oAsmCmpDef.Occurrences 'Get Leaf Occurences for Current Assembly Document Definition
                                 Select Case oCmpOcc.DefinitionDocumentType()
                                     Case DocumentTypeEnum.kAssemblyDocumentObject
@@ -74,25 +76,21 @@ Public Class VRepHelperRun
                                             Continue For
                                         End If
                                         If oCmpOcc.BOMStructure() = BOMStructureEnum.kPhantomBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
-                                            Try
-                                                If oCmpOcc.ActiveDesignViewRepresentation() = oViewRep.Name Then
-                                                    Continue For
-                                                ElseIf oCmpOcc.ActiveDesignViewRepresentation() <> oViewRep.Name Then
+                                            If oCmpOcc.IsAssociativeToDesignViewRepresentation() Then
+                                                If Not oCmpOcc.ActiveDesignViewRepresentation() = oViewRep.Name Then
                                                     Try
-                                                        oCmpOcc.SetDesignViewRepresentation(oViewRep.Name)
-                                                    Catch
-                                                        Continue For
-                                                    End Try
-                                                ElseIf String.IsNullOrEmpty(oCmpOcc.ActiveDesignViewRepresentation()) Then
-                                                    Try
-                                                        oCmpOcc.SetDesignViewRepresentation(oViewRep.Name)
+                                                        oCmpOcc.SetDesignViewRepresentation(oViewRep.Name, True)
                                                     Catch
                                                         Continue For
                                                     End Try
                                                 End If
-                                            Catch
-                                                Continue For
-                                            End Try
+                                            Else
+                                                Try
+                                                    oCmpOcc.SetDesignViewRepresentation(oViewRep.Name, True)
+                                                Catch
+                                                    Continue For
+                                                End Try
+                                            End If
                                         Else
                                             Continue For
                                         End If
@@ -108,9 +106,13 @@ Public Class VRepHelperRun
                                                             Continue For
                                                         Else
                                                             If oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oViewRepId) Then
-                                                                oObjCol1.Add(oCmpOcc)
+                                                                If Not oCmpOcc.Visible Then
+                                                                    oObjCol1.Add(oCmpOcc)
+                                                                End If
                                                             ElseIf Not oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oViewRepId) Then
-                                                                oObjCol2.Add(oCmpOcc)
+                                                                If oCmpOcc.Visible Then
+                                                                    oObjCol2.Add(oCmpOcc)
+                                                                End If
                                                             End If
                                                         End If
                                                     Catch
@@ -124,36 +126,42 @@ Public Class VRepHelperRun
                                         Continue For
                                 End Select
                             Next oCmpOcc
-                            If oObjCol1.Count() <> 0 Then
+                            If oObjCol1.Count() Then
                                 Try
                                     oViewRep.SetVisibilityOfOccurrences(oObjCol1, True)
+                                    oInvApp.ScreenUpdating = True
+                                    oInvApp.StatusBarText() = "Setting Component Occurrence Collection Visibility to True"
+                                    oInvApp.ScreenUpdating = False
                                 Catch ex As Exception
                                     MsgBox(ex.ToString,, oCaption)
                                 Finally
                                     oObjCol1.Clear()
                                 End Try
                             End If
-                            If oObjCol2.Count() <> 0 Then
+                            If oObjCol2.Count() Then
                                 Try
                                     oViewRep.SetVisibilityOfOccurrences(oObjCol2, False)
+                                    oInvApp.ScreenUpdating = True
+                                    oInvApp.StatusBarText() = "Setting Component Occurrence Collection Visibility to False"
+                                    oInvApp.ScreenUpdating = False
                                 Catch ex As Exception
                                     MsgBox(ex.ToString,, oCaption)
                                 Finally
                                     oObjCol2.Clear()
                                 End Try
                             End If
-                            oViewRepActive.Activate()
+
                         End If
-                        For Each oVRepRow As DataRow In oVRepTable.Rows 'Create View Representations If Not Exist
-                            If oVRepRow.Item("LOD") Then
-                                Try
-                                    oLODReps.Item(oVRepRow.Item("Name")).Activate()
-                                Catch
-                                    oLODRep = oLODReps.Add(oVRepRow.Item("Name"))
-                                End Try
-                            End If
-                        Next oVRepRow
                     Next oViewRep
+                    For Each oVRepRow As DataRow In oVRepTable.Rows 'Create View Representations If Not Exist
+                        If oVRepRow.Item("LOD") Then
+                            Try
+                                oLODRep = oLODReps.Item(oVRepRow.Item("Name"))
+                            Catch
+                                oLODRep = oLODReps.Add(oVRepRow.Item("Name"))
+                            End Try
+                        End If
+                    Next oVRepRow
                     For Each oLODRep In oLODReps 'Run Through Each View Representation and Set Visibility
                         If oLODRep.LevelOfDetail() = LevelOfDetailEnum.kCustomLevelOfDetail Then
                             oLODRep.Activate() 'Activate View Representation
@@ -163,6 +171,9 @@ Public Class VRepHelperRun
                             Catch
                                 Continue For
                             End Try
+                            oInvApp.ScreenUpdating = True
+                            oInvApp.StatusBarText() = "Setting " & oLODRep.Name & " to Active Level of Detail Representation"
+                            oInvApp.ScreenUpdating = False
                             For Each oCmpOcc As ComponentOccurrence In oAsmCmpDef.Occurrences 'Get Leaf Occurences for Current Assembly Document Definition
                                 Select Case oCmpOcc.DefinitionDocumentType()
                                     Case DocumentTypeEnum.kAssemblyDocumentObject
@@ -198,9 +209,13 @@ Public Class VRepHelperRun
                                                             Continue For
                                                         Else
                                                             If oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oLODRepId) Then
-                                                                oCmpOcc.Unsuppress()
+                                                                If oCmpOcc.Suppressed Then
+                                                                    oCmpOcc.Unsuppress()
+                                                                End If
                                                             ElseIf Not oCDefTable.Rows.Find(oPropSets.Item("Inventor Summary Information").Item("Title").Value)(oLODRepId) Then
-                                                                oCmpOcc.Suppress()
+                                                                If Not oCmpOcc.Suppressed Then
+                                                                    oCmpOcc.Suppress()
+                                                                End If
                                                             End If
                                                         End If
                                                     Catch
@@ -214,18 +229,27 @@ Public Class VRepHelperRun
                                         Continue For
                                 End Select
                             Next oCmpOcc
-                            oDoc.Save()
+                            oDoc.Save2(False)
                         End If
                     Next oLODRep
+                    oInvApp.ScreenUpdating = True
+                    oInvApp.StatusBarText() = "Complete"
+                    oInvApp.ScreenUpdating = False
                 End If
-                oLODRepActive.Activate()
+                'oViewRepActive.Activate()
+                'oLODRepActive.Activate()
                 oStopWatch.Stop()
-                oDoc.Save()
+                oDoc.Save2(False)
                 MsgBox("Setting Design View & LOD Representation Process Completed." & vbCr & "Process Completed in " & oStopWatch.Elapsed.TotalMinutes.ToString("F2") & " Minutes.",, oCaption)
             Catch ex As Exception
                 MsgBox(ex.ToString,, oCaption)
             End Try
-            oDoc = Nothing
+            Select Case MessageBox.Show("Do you want to set View Representation and Level of Detail to the original values?", oCaption, MessageBoxButtons.YesNo)
+                Case DialogResult.Yes
+                    oViewRepActive.Activate()
+                    oLODRepActive.Activate()
+                Case Else
+            End Select
         Catch
             MsgBox("Sorry! Something did not go right.",, oCaption)
         Finally

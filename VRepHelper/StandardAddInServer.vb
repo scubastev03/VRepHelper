@@ -103,7 +103,7 @@ Namespace VRepHelper
         Public Sub CreateCommands()
             ' Create HDRBIM Project button
             Me.oVRepRunBtn = Me.oInvControlDefs.AddButtonDefinition(
-                  "Run VRep Helper",
+                  "Run VRepHelper",
                   "VRepHelper:CustomCommand:VRepHelperRun",
                   CommandTypesEnum.kShapeEditCmdType,
                   "{" & Me.oInvCLSID.Value & "}",
