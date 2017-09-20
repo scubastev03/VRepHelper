@@ -22,7 +22,15 @@ Public Class VRepHelperRun
         Dim oObjCol1 As ObjectCollection = oInvApp.TransientObjects.CreateObjectCollection
         Dim oObjCol2 As ObjectCollection = oInvApp.TransientObjects.CreateObjectCollection
         Dim oDeferUpdate As Boolean = oInvApp.AssemblyOptions.DeferUpdate
+        Dim oAddRepIfNotExist As Boolean = False
+        Dim oCmpOccCount As Double = oCmpOccs.AllLeafOccurrences().Count
+        Dim oMinCount As Double = 2500
         Try
+            Select Case MessageBox.Show("Do you want to add any View Reps and LODs that do not exist in the file?", oCaption, MessageBoxButtons.YesNo)
+                Case DialogResult.Yes
+                    oAddRepIfNotExist = True
+                Case Else
+            End Select
             Select Case MessageBox.Show("Do you want to proceed? This process may take several minutes.", oCaption, MessageBoxButtons.OKCancel)
                 Case DialogResult.Cancel
                     Exit Sub
@@ -50,19 +58,21 @@ Public Class VRepHelperRun
                             Try
                                 oViewRep = oViewReps.Item(oVRepRow.Item("Name"))
                             Catch
-                                oViewRep = oViewReps.Add(oVRepRow.Item("Name"))
+                                If oAddRepIfNotExist Then
+                                    oViewRep = oViewReps.Add(oVRepRow.Item("Name"))
+                                End If
                             End Try
                         End If
                     Next oVRepRow
                     For Each oViewRep In oViewReps 'Run Through Each View Representation and Set Visibility
                         If oViewRep.DesignViewType() = DesignViewTypeEnum.kPublicDesignViewType Then
-                            oViewRep.Activate() 'Activate View Representation
                             Dim oViewRepId As String
                             Try
                                 oViewRepId = oVRepTable.Rows.Find(oViewRep.Name)(1).ToString()
                             Catch
                                 Continue For
                             End Try
+                            oViewRep.Activate() 'Activate View Representation
                             oInvApp.ScreenUpdating = True
                             oInvApp.StatusBarText() = "Setting " & oViewRep.Name & " to Active Design View Representation"
                             oInvApp.ScreenUpdating = False
@@ -76,8 +86,16 @@ Public Class VRepHelperRun
                                             Continue For
                                         End If
                                         If oCmpOcc.BOMStructure() = BOMStructureEnum.kPhantomBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
-                                            If oCmpOcc.IsAssociativeToDesignViewRepresentation() Then
-                                                If Not oCmpOcc.ActiveDesignViewRepresentation() = oViewRep.Name Then
+                                            If oMinCount >= oCmpOccCount Then
+                                                If oCmpOcc.IsAssociativeToDesignViewRepresentation() Then
+                                                    If Not oCmpOcc.ActiveDesignViewRepresentation() = oViewRep.Name Then
+                                                        Try
+                                                            oCmpOcc.SetDesignViewRepresentation(oViewRep.Name, True)
+                                                        Catch
+                                                            Continue For
+                                                        End Try
+                                                    End If
+                                                Else
                                                     Try
                                                         oCmpOcc.SetDesignViewRepresentation(oViewRep.Name, True)
                                                     Catch
@@ -86,13 +104,13 @@ Public Class VRepHelperRun
                                                 End If
                                             Else
                                                 Try
-                                                    oCmpOcc.SetDesignViewRepresentation(oViewRep.Name, True)
+                                                    oCmpOcc.SetDesignViewRepresentation(oViewRep.Name, False)
                                                 Catch
                                                     Continue For
                                                 End Try
                                             End If
                                         Else
-                                            Continue For
+                                                Continue For
                                         End If
                                     Case DocumentTypeEnum.kPartDocumentObject
                                         If oCmpOcc.BOMStructure() = BOMStructureEnum.kNormalBOMStructure Or BOMStructureEnum.kPurchasedBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
@@ -158,19 +176,21 @@ Public Class VRepHelperRun
                             Try
                                 oLODRep = oLODReps.Item(oVRepRow.Item("Name"))
                             Catch
-                                oLODRep = oLODReps.Add(oVRepRow.Item("Name"))
+                                If oAddRepIfNotExist Then
+                                    oLODRep = oLODReps.Add(oVRepRow.Item("Name"))
+                                End If
                             End Try
                         End If
                     Next oVRepRow
                     For Each oLODRep In oLODReps 'Run Through Each View Representation and Set Visibility
                         If oLODRep.LevelOfDetail() = LevelOfDetailEnum.kCustomLevelOfDetail Then
-                            oLODRep.Activate() 'Activate View Representation
                             Dim oLODRepId As String
                             Try
                                 oLODRepId = oVRepTable.Rows.Find(oLODRep.Name)(1).ToString()
                             Catch
                                 Continue For
                             End Try
+                            oLODRep.Activate() 'Activate View Representation
                             oInvApp.ScreenUpdating = True
                             oInvApp.StatusBarText() = "Setting " & oLODRep.Name & " to Active Level of Detail Representation"
                             oInvApp.ScreenUpdating = False
@@ -236,8 +256,6 @@ Public Class VRepHelperRun
                     oInvApp.StatusBarText() = "Complete"
                     oInvApp.ScreenUpdating = False
                 End If
-                'oViewRepActive.Activate()
-                'oLODRepActive.Activate()
                 oStopWatch.Stop()
                 oDoc.Save2(False)
                 MsgBox("Setting Design View & LOD Representation Process Completed." & vbCr & "Process Completed in " & oStopWatch.Elapsed.TotalMinutes.ToString("F2") & " Minutes.",, oCaption)
@@ -246,6 +264,9 @@ Public Class VRepHelperRun
             End Try
             Select Case MessageBox.Show("Do you want to set View Representation and Level of Detail to the original values?", oCaption, MessageBoxButtons.YesNo)
                 Case DialogResult.Yes
+                    oInvApp.ScreenUpdating = True
+                    oInvApp.StatusBarText() = "Setting View Representation and Level of Detail Representations to initial values."
+                    oInvApp.ScreenUpdating = False
                     oViewRepActive.Activate()
                     oLODRepActive.Activate()
                 Case Else
@@ -254,6 +275,7 @@ Public Class VRepHelperRun
             MsgBox("Sorry! Something did not go right.",, oCaption)
         Finally
             oInvApp.ScreenUpdating = True
+            oInvApp.StatusBarText() = "Complete"
             oInvApp.AssemblyOptions.DeferUpdate = oDeferUpdate
         End Try
     End Sub
