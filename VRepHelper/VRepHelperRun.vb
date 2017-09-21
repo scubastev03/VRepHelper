@@ -26,8 +26,8 @@ Public Class VRepHelperRun
         Dim oCmpOccCount As Double = oCmpOccs.AllLeafOccurrences().Count
         Dim oMinCount As Double = 2500
         Try
-            Select Case MessageBox.Show("Do you want to add any View Reps and LODs that do not exist in the file?", oCaption, MessageBoxButtons.YesNo)
-                Case DialogResult.Yes
+            Select Case MessageBox.Show("Continue without adding non existing View and LOD Representations?", oCaption, MessageBoxButtons.YesNo)
+                Case DialogResult.No
                     oAddRepIfNotExist = True
                 Case Else
             End Select
@@ -86,7 +86,7 @@ Public Class VRepHelperRun
                                             Continue For
                                         End If
                                         If oCmpOcc.BOMStructure() = BOMStructureEnum.kPhantomBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
-                                            If oMinCount >= oCmpOccCount Then
+                                            If oMinCount >= oCmpOccCount AndAlso Not oMinCount = 0 Then
                                                 If oCmpOcc.IsAssociativeToDesignViewRepresentation() Then
                                                     If Not oCmpOcc.ActiveDesignViewRepresentation() = oViewRep.Name Then
                                                         Try
@@ -110,7 +110,7 @@ Public Class VRepHelperRun
                                                 End Try
                                             End If
                                         Else
-                                                Continue For
+                                            Continue For
                                         End If
                                     Case DocumentTypeEnum.kPartDocumentObject
                                         If oCmpOcc.BOMStructure() = BOMStructureEnum.kNormalBOMStructure Or BOMStructureEnum.kPurchasedBOMStructure Or BOMStructureEnum.kReferenceBOMStructure Then
@@ -168,7 +168,6 @@ Public Class VRepHelperRun
                                     oObjCol2.Clear()
                                 End Try
                             End If
-
                         End If
                     Next oViewRep
                     For Each oVRepRow As DataRow In oVRepTable.Rows 'Create View Representations If Not Exist
